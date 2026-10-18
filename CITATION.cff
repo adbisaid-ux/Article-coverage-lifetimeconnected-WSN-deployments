@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite the article."
+title: "Coverage versus lifetime in connected wireless sensor deployments: code and data"
+authors:
+  - family-names: Adbi
+    given-names: Said
+    orcid: "https://orcid.org/0009-0009-7639-3377"
+    affiliation: "LIMATI, Polydisciplinary Faculty, Sultan Moulay Slimane University"
+  - family-names: Mouncif
+    given-names: Hicham
+    affiliation: "LIMATI, Polydisciplinary Faculty, Sultan Moulay Slimane University"
+license: MIT
+repository-code: "https://github.com/adbisaid-ux/Article-coverage-lifetimeconnected-WSN-deployments"

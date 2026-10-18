@@ -1,0 +1,7 @@
+numpy==2.5.3
+scipy==1.18.1
+pandas==3.0.5
+matplotlib==3.11.2
+numba==0.68.0
+pymoo==0.6.2
+tabulate

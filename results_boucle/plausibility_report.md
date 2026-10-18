@@ -1,0 +1,22 @@
+# A1 /boucle : contrôles de vraisemblance automatiques
+
+- Exécutions : 1590 / 1590 attendues.
+- Évaluations hors budget : max 0, min 0.
+- HV hors [0, 1] : 0 ; CR hors [0, 1] : 0.
+- Écart-type de HV nul : 0 cellule(s).
+- E1 NSGA-II+REPAIR vs NSGA-II : ++++++=+ ; gain HV 0.6 à 31.0 %.
+- E1 NSGA-II+RND vs NSGA-II : ++++++=+ ; gain HV 0.9 à 30.9 %.
+- E1 NSGA-II+SA vs NSGA-II+REPAIR : ======== ; gain HV 0.4 à 2.2 %.
+- E1 NSGA-II+SA vs NSGA-II+RND : ======== ; gain HV -0.0 à 1.8 %.
+- E2 NSGA-III+SA (HV) : ++++++++ ; gain 2.1 à 22.7 %.
+- E2 NSGA-III+SA (max_CR) : ++++++++ ; gain 14.3 à 103.0 %.
+- E2 SMS-EMOA+SA (HV) : ++++++++ ; gain 8.4 à 45.0 %.
+- E2 SMS-EMOA+SA (max_CR) : ++++++++ ; gain 34.1 à 313.0 %.
+- E3 HV : NSGA-II+SA vs autres : ===+++=+++++++++++ ; A12 min 0.51.
+  - N100_Rc12_L200 : meilleur concurrent NSGA-II, gain 12.8 %.
+  - N50_Rc12_L100_clustered : meilleur concurrent NSGA-II, gain -0.4 %.
+  - N50_Rc12_L100_corner : meilleur concurrent NSGA-II, gain 1.5 %.
+- E3 max_CR : NSGA-II+SA vs autres : ++++++++++++++++++ ; A12 min 0.84.
+  - N100_Rc12_L200 : meilleur concurrent NSGA-II, gain 84.8 %.
+  - N50_Rc12_L100_clustered : meilleur concurrent NSGA-II, gain 3.8 %.
+  - N50_Rc12_L100_corner : meilleur concurrent NSGA-II, gain 7.4 %.

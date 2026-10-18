@@ -1,0 +1,176 @@
+720 runs
+20/720 15:20:06
+40/720 15:20:30
+60/720 15:20:57
+80/720 15:21:23
+100/720 15:21:52
+120/720 15:22:17
+140/720 15:22:47
+160/720 15:23:15
+180/720 15:23:44
+200/720 15:24:16
+220/720 15:24:46
+240/720 15:25:18
+260/720 15:25:43
+280/720 15:26:07
+300/720 15:26:31
+320/720 15:26:56
+340/720 15:27:21
+360/720 15:27:46
+380/720 15:28:15
+400/720 15:28:46
+420/720 15:29:15
+440/720 15:29:45
+460/720 15:30:15
+480/720 15:30:44
+500/720 15:31:09
+520/720 15:31:33
+540/720 15:31:58
+560/720 15:32:24
+580/720 15:32:50
+600/720 15:33:15
+620/720 15:33:46
+640/720 15:34:15
+660/720 15:34:44
+680/720 15:35:15
+700/720 15:35:46
+720/720 15:36:16
+720 runs
+20/720 15:39:22
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.13/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "experiments/run_a1.py", line 60, in task
+    res = solve(alg, prob, pop0, r)
+  File "experiments/run_a1.py", line 50, in solve
+    return pymoo_run(alg, prob, B, pop0, S["algo_seed"][r])
+  File "src/moea.py", line 206, in pymoo_run
+    res = minimize(W(), algo, ("n_eval", budget), seed=seed, callback=cb, verbose=False)
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/optimize.py", line 48, in minimize
+    res = algorithm.run()
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/core/algorithm.py", line 145, in run
+    self.next()
+    ~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/core/algorithm.py", line 167, in next
+    self.advance(infills=infills)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/core/algorithm.py", line 222, in advance
+    self._initialize_advance(infills=infills, **kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/algorithms/base/genetic.py", line 86, in _initialize_advance
+    self.pop = self.survival.do(
+               ~~~~~~~~~~~~~~~~^
+        self.problem,
+        ^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/util/__init__.py", line 35, in wrapper
+    return func(*args, random_state=random_state, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/core/survival.py", line 83, in do
+    survivors = self._do(
+        problem,
+    ...<4 lines>...
+        **kwargs,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/algorithms/moo/age.py", line 135, in _do
+    crowd_dist[front_no == 0], p, normalization = self.survival_score(
+                                                  ~~~~~~~~~~~~~~~~~~~^
+        front1, ideal_point
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/pymoo/algorithms/moo/age.py", line 188, in survival_score
+    distances = self.pairwise_distances(front, p)
+ZeroDivisionError: division by zero
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "experiments/run_a1.py", line 138, in <module>
+    main()
+    ~~~~^^
+  File "experiments/run_a1.py", line 125, in main
+    for k, (row, fronts, hist, val) in enumerate(pool.imap_unordered(task, todo), 1):
+                                       ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/multiprocessing/pool.py", line 873, in next
+    raise value
+ZeroDivisionError: division by zero
+691 runs
+20/691 15:46:48
+40/691 15:49:32
+60/691 15:51:56
+80/691 15:54:43
+100/691 15:57:38
+120/691 16:00:19
+140/691 16:03:50
+160/691 16:06:45
+180/691 16:09:11
+200/691 16:11:48
+220/691 16:12:59
+240/691 16:13:15
+260/691 16:13:25
+280/691 16:13:38
+300/691 16:13:50
+320/691 16:14:03
+340/691 16:14:15
+360/691 16:14:29
+380/691 16:14:41
+400/691 16:14:55
+420/691 16:15:10
+440/691 16:15:23
+460/691 16:15:45
+480/691 16:16:13
+500/691 16:16:40
+520/691 16:17:09
+540/691 16:17:36
+560/691 16:18:03
+580/691 16:18:32
+600/691 16:19:03
+620/691 16:19:33
+640/691 16:20:03
+660/691 16:20:34
+680/691 16:21:04
+720 runs
+20/720 16:23:06
+40/720 16:24:45
+60/720 16:26:21
+80/720 16:28:12
+100/720 16:29:59
+120/720 16:31:39
+140/720 16:33:36
+160/720 16:35:27
+180/720 16:37:11
+200/720 16:39:19
+220/720 16:41:21
+240/720 16:43:18
+260/720 16:45:22
+280/720 16:47:22
+300/720 16:49:24
+320/720 16:51:31
+340/720 16:53:35
+360/720 16:55:43
+380/720 16:58:10
+400/720 17:00:35
+420/720 17:02:55
+440/720 17:05:30
+460/720 17:08:04
+480/720 17:10:28
+500/720 17:12:28
+520/720 17:14:26
+540/720 17:16:22
+560/720 17:18:23
+580/720 17:20:23
+600/720 17:22:21
+620/720 17:24:44
+640/720 17:27:06
+660/720 17:29:28
+680/720 17:31:56
+700/720 17:34:20
+720/720 17:36:41

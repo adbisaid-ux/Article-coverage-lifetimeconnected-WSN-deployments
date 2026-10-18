@@ -1,0 +1,11 @@
+### Table 5. Wall time per run (s), all scenarios
+
+| algorithm      |   mean |   std |
+|:---------------|-------:|------:|
+| NSGA-II+SA     |   5.82 |  0.65 |
+| NSGA-II        |   4.47 |  0.43 |
+| NSGA-II(pymoo) |   8.44 |  0.69 |
+| NSGA-III       |   8.95 |  0.75 |
+| MOEA/D         |  69.34 |  2.89 |
+| SMS-EMOA       |  10.83 |  0.76 |
+| DE-CR          |   2.65 |  0.39 |

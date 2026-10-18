@@ -1,0 +1,6 @@
+{
+ "scenario": "N50_Rc12_L100",
+ "batch": 100,
+ "repeats": 200,
+ "us_per_eval": 4.88643825001418
+}
