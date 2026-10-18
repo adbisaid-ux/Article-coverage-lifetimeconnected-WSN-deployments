@@ -35,10 +35,17 @@ def solve(alg, prob, pop0, r):
         return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["ablation"][alg])
     if alg == "NSGA-II":
         return nsga2_sa(prob, B, pop0, rng, p_sa=0.0)
+    if alg.startswith("NSGA-II ec="):     # tuned variation parameters, e.g. "NSGA-II ec=5 em=50"
+        ec, em = (float(t.split("=")[1]) for t in alg.split()[1:])
+        return nsga2_sa(prob, B, pop0, rng, p_sa=0.0, eta_c=ec, eta_m=em)
     if alg == "NSGA-II+RND":
         return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], mode=1)
     if alg == "NSGA-II+REPAIR":
         return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], mode=2)
+    if alg in ("NSGA-II+KY-RH", "NSGA-II+DD-MCSA"):
+        from repairs_pub import dd_mcsa, ky_rh
+        f = ky_rh if alg.endswith("KY-RH") else dd_mcsa
+        return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], repair=lambda xy, g: f(xy, prob.sink, prob.rc, g))
     if alg == "EPS-DE":
         return eps_de(prob, B, pop0, rng)
     if alg == "EPS-DE+REPAIR":

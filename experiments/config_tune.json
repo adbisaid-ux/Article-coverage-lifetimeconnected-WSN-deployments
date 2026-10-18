@@ -1,0 +1,138 @@
+{
+ "description": "Minimal tuning of NSGA-II variation parameters (review round 4, item 16): grid eta_c x eta_m on 2 scenarios, 10 runs with seeds disjoint from all other campaigns. Selection rule fixed before running: highest mean HV over the 20 tuning runs.",
+ "rs": 8.0,
+ "scenarios": {
+  "N30_Rc8_L100": {
+   "N": 30,
+   "T": 100,
+   "L": 100,
+   "Rc": 8
+  },
+  "N30_Rc8_L140": {
+   "N": 30,
+   "T": 100,
+   "L": 140,
+   "Rc": 8
+  },
+  "N30_Rc12_L100": {
+   "N": 30,
+   "T": 100,
+   "L": 100,
+   "Rc": 12
+  },
+  "N30_Rc12_L140": {
+   "N": 30,
+   "T": 100,
+   "L": 140,
+   "Rc": 12
+  },
+  "N50_Rc8_L100": {
+   "N": 50,
+   "T": 100,
+   "L": 100,
+   "Rc": 8
+  },
+  "N50_Rc8_L140": {
+   "N": 50,
+   "T": 100,
+   "L": 140,
+   "Rc": 8
+  },
+  "N50_Rc12_L100": {
+   "N": 50,
+   "T": 100,
+   "L": 100,
+   "Rc": 12
+  },
+  "N50_Rc12_L140": {
+   "N": 50,
+   "T": 100,
+   "L": 140,
+   "Rc": 12
+  }
+ },
+ "NP": 100,
+ "budget": 100000,
+ "algorithms": [
+  "NSGA-II+SA",
+  "NSGA-II",
+  "NSGA-II(pymoo)",
+  "NSGA-III",
+  "MOEA/D",
+  "SMS-EMOA",
+  "DE-CR"
+ ],
+ "ablation": {
+  "NSGA-II+SA p_sa=0.1": 0.1,
+  "NSGA-II+SA p_sa=0.5": 0.5
+ },
+ "p_sa": 0.2,
+ "step_max": "rs",
+ "runs": 10,
+ "seeds": {
+  "target_seed": [
+   20270001,
+   20270002,
+   20270003,
+   20270004,
+   20270005,
+   20270006,
+   20270007,
+   20270008,
+   20270009,
+   20270010
+  ],
+  "init_seed": [
+   31000,
+   31001,
+   31002,
+   31003,
+   31004,
+   31005,
+   31006,
+   31007,
+   31008,
+   31009
+  ],
+  "algo_seed": [
+   41000,
+   41001,
+   41002,
+   41003,
+   41004,
+   41005,
+   41006,
+   41007,
+   41008,
+   41009
+  ]
+ },
+ "radio": {
+  "E0_J": 0.5,
+  "k_bits": 4000,
+  "E_elec": 5e-08,
+  "eps_fs": 1e-11,
+  "sink": "field centre"
+ },
+ "hv_reference_point": [
+  1.0,
+  1.0
+ ],
+ "objectives": "maximise CR and T/T_max; HV computed on G = 1 - F",
+ "validation": "up to 10 points of each final front: c_tree vs exact max-flow c*; FND with true link distances under the same tree",
+ "scenarios_TU": [
+  "N30_Rc8_L140",
+  "N50_Rc12_L100"
+ ],
+ "algorithms_TU": [
+  "NSGA-II ec=5 em=5",
+  "NSGA-II ec=5 em=20",
+  "NSGA-II ec=5 em=50",
+  "NSGA-II ec=15 em=5",
+  "NSGA-II ec=15 em=20",
+  "NSGA-II ec=15 em=50",
+  "NSGA-II ec=30 em=5",
+  "NSGA-II ec=30 em=20",
+  "NSGA-II ec=30 em=50"
+ ]
+}

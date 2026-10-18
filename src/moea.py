@@ -109,7 +109,8 @@ def sbx_pm(P1, P2, lo, hi, rng, eta_c=15.0, pc=0.9, eta_m=20.0, pm=None):
     return C
 
 
-def nsga2_sa(problem, budget, pop0, rng, p_sa=0.2, step_max=None, log_every=10, mode=0, margin=0.95):
+def nsga2_sa(problem, budget, pop0, rng, p_sa=0.2, step_max=None, log_every=10, mode=0, margin=0.95,
+             eta_c=15.0, eta_m=20.0, repair=None):
     lo, hi = problem.lower, problem.upper
     step = problem.rs if step_max is None else step_max
     X = pop0.copy()
@@ -125,10 +126,13 @@ def nsga2_sa(problem, budget, pop0, rng, p_sa=0.2, step_max=None, log_every=10, 
         # binary tournaments on (rank, crowding)
         a, b = rng.integers(NP, size=(2, NP))
         win = np.where((rank[a] < rank[b]) | ((rank[a] == rank[b]) & (cd[a] > cd[b])), a, b)
-        C = sbx_pm(X[win[: NP // 2]], X[win[NP // 2:]], lo, hi, rng)[:m]
+        C = sbx_pm(X[win[: NP // 2]], X[win[NP // 2:]], lo, hi, rng, eta_c=eta_c, eta_m=eta_m)[:m]
         if p_sa > 0:
             sel = np.flatnonzero(rng.random(m) < p_sa)
             for i in sel:
+                if repair is not None:      # published repair baseline (src/repairs_pub.py)
+                    C[i] = repair(C[i].reshape(-1, 2), rng).ravel()
+                    continue
                 C[i] = agent_step(C[i].reshape(-1, 2), problem.targets, problem.sink, problem.rs,
                                   problem.rc, lo, hi, step, rng.random(2 * problem.N), mode, margin).ravel()
         FC = problem.evaluate(C)[0]

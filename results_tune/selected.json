@@ -1,0 +1,6 @@
+{
+ "rule": "highest mean HV over the 20 tuning runs",
+ "selected": "NSGA-II ec=30 em=5",
+ "default": "NSGA-II ec=15 em=20",
+ "n_runs": 20
+}
