@@ -155,3 +155,33 @@ if os.path.exists(p):
     R["gain%"] = 100 * (R.ma / R.mb - 1)
     R.to_csv(os.path.join(ROOT, "results_pubrate", "stats_rate.csv"), index=False)
     print("PR:\n", R.round(4).to_string())
+
+# ---------------------------------------------------------------- cross-regime loss of NSGA-II+REPAIR (review round 5)
+import sys                                                    # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "src"))
+from moea import hv2d                                         # noqa: E402
+fr = pd.read_csv(os.path.join(ROOT, "results_agg", "fronts.csv"))
+fr = fr[fr.algorithm == "NSGA-II+REPAIR"]
+rows = []
+for k in sorted(s for s in fr.scenario.unique() if not s.startswith("A_")):
+    for r in range(30):
+        a = fr[(fr.scenario == "A_" + k) & (fr.run == r)]
+        b = fr[(fr.scenario == k) & (fr.run == r)]
+        if a.empty or b.empty:
+            continue
+        rows.append(dict(scenario=k, run=r, hv_agg_own=hv2d(1 - a[["CR", "Tn"]].values),
+                         hv_agg_from_raw=hv2d(1 - b[["CR", "Tn_other"]].values),
+                         hv_raw_own=hv2d(1 - b[["CR", "Tn"]].values),
+                         hv_raw_from_agg=hv2d(1 - a[["CR", "Tn_other"]].values)))
+X = pd.DataFrame(rows)
+rows = []
+for k, d in X.groupby("scenario"):
+    rows.append(dict(scenario=k, agg_loss_pct=100 * (1 - d.hv_agg_from_raw.mean() / d.hv_agg_own.mean()),
+                     p_agg=stats.wilcoxon(d.hv_agg_own, d.hv_agg_from_raw).pvalue,
+                     raw_loss_pct=100 * (1 - d.hv_raw_from_agg.mean() / d.hv_raw_own.mean()),
+                     p_raw=stats.wilcoxon(d.hv_raw_own, d.hv_raw_from_agg).pvalue))
+XS = pd.DataFrame(rows)
+p = holm(np.r_[XS.p_agg, XS.p_raw])                           # Holm over the 16 tests of NSGA-II+REPAIR
+XS["p_agg_holm"], XS["p_raw_holm"] = p[:len(XS)], p[len(XS):]
+XS.to_csv(os.path.join(ROOT, "results_agg", "tables", "cross_regime_repair.csv"), index=False)
+print("Cross-regime, NSGA-II+REPAIR:\n", XS.round(4).to_string())
