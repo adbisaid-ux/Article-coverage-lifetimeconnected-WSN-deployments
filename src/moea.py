@@ -145,6 +145,9 @@ def nsga2_sa(problem, budget, pop0, rng, p_sa=0.2, step_max=None, log_every=10, 
     return dict(X=X[nd], F=1.0 - G[nd], hist=np.array(hist))
 
 
+AGE_FALLBACKS = {"calls": 0, "fallbacks": 0}
+
+
 def pymoo_run(name, problem, budget, pop0, seed, p_sa=0.0):
     from pymoo.core.problem import Problem as PP
     from pymoo.core.callback import Callback
@@ -158,14 +161,17 @@ def pymoo_run(name, problem, budget, pop0, seed, p_sa=0.0):
 
     # pymoo 0.6.2 bug: AGE-MOEA-II's geodesic distance divides by zero when a front point coincides
     # with the ideal point (frequent here, objectives are discrete). Fallback to Euclidean distances
-    # for that call only; the number of fallbacks is not recorded (documented in the paper).
+    # for that call only; AGE_FALLBACKS counts the calls and the fallbacks in this process
+    # (experiments/count_age_fallbacks.py).
     if not getattr(AGEMOEA2Survival, "_a1_patched", False):
         _orig = AGEMOEA2Survival.pairwise_distances
 
         def _safe(front, p):
+            AGE_FALLBACKS["calls"] += 1
             try:
                 return _orig(front, p)
             except ZeroDivisionError:
+                AGE_FALLBACKS["fallbacks"] += 1
                 D = np.sqrt(((front[:, None, :] - front[None, :, :]) ** 2).sum(-1))
                 return np.triu(D, 1) + np.triu(D, 1).T
         AGEMOEA2Survival.pairwise_distances = staticmethod(_safe)
