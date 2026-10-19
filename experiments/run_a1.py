@@ -42,10 +42,13 @@ def solve(alg, prob, pop0, r):
         return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], mode=1)
     if alg == "NSGA-II+REPAIR":
         return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], mode=2)
-    if alg in ("NSGA-II+KY-RH", "NSGA-II+DD-MCSA"):
+    if alg.startswith("NSGA-II+REPAIR p="):   # repair rate sensitivity, e.g. "NSGA-II+REPAIR p=0.5"
+        return nsga2_sa(prob, B, pop0, rng, p_sa=float(alg.split("=")[1]), mode=2)
+    if alg.split(" p=")[0] in ("NSGA-II+KY-RH", "NSGA-II+DD-MCSA"):
         from repairs_pub import dd_mcsa, ky_rh
-        f = ky_rh if alg.endswith("KY-RH") else dd_mcsa
-        return nsga2_sa(prob, B, pop0, rng, p_sa=CFG["p_sa"], repair=lambda xy, g: f(xy, prob.sink, prob.rc, g))
+        f = ky_rh if alg.split(" p=")[0].endswith("KY-RH") else dd_mcsa
+        rate = float(alg.split(" p=")[1]) if " p=" in alg else CFG["p_sa"]
+        return nsga2_sa(prob, B, pop0, rng, p_sa=rate, repair=lambda xy, g: f(xy, prob.sink, prob.rc, g))
     if alg == "EPS-DE":
         return eps_de(prob, B, pop0, rng)
     if alg == "EPS-DE+REPAIR":

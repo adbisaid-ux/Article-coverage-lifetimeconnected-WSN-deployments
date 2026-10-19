@@ -129,3 +129,29 @@ for folder, base, regime in [("results_pub", None, "raw"), ("results_pub_agg", "
     print(R.groupby(["metric", "a", "b", "res"]).size().unstack(fill_value=0))
     print(R[R.metric == "HV"].groupby(["a", "b"])["gain%"].agg(["min", "max"]).round(1))
     print(P.groupby("algorithm").time_s.mean().round(1))
+
+# ---------------------------------------------------------------- PR: repair rate sensitivity (review round 5)
+p = os.path.join(ROOT, "results_pubrate", "raw_runs.csv")
+if os.path.exists(p):
+    P = pd.read_csv(p)
+    Q = pd.read_csv(os.path.join(ROOT, "results_pub", "raw_runs.csv"))
+    x = pd.concat([M[M.algorithm.isin(["NSGA-II+SA", "NSGA-II+SA p_sa=0.5", "NSGA-II"])],
+                   B[B.algorithm == "NSGA-II+REPAIR"], Q, P])
+    x = x[x.scenario.isin(P.scenario.unique())]
+    x.groupby(["scenario", "algorithm"])[["HV", "max_CR", "time_s"]].mean().to_csv(
+        os.path.join(ROOT, "results_pubrate", "means.csv"))
+    rows = []
+    for sc, d in x.groupby("scenario"):
+        for met in ["HV", "max_CR"]:
+            w = d.pivot(index="run", columns="algorithm", values=met)
+            for b in [c for c in w.columns if "KY-RH" in c or "DD-MCSA" in c]:
+                rows.append(dict(scenario=sc, metric=met, a="NSGA-II+SA", b=b, ma=w["NSGA-II+SA"].mean(),
+                                 mb=w[b].mean(), p=stats.wilcoxon(w["NSGA-II+SA"], w[b]).pvalue))
+    R = pd.DataFrame(rows)
+    for met in ["HV", "max_CR"]:
+        q = R.metric == met
+        R.loc[q, "p_holm"] = holm(R.loc[q, "p"])          # Holm over the 12 tests of one metric
+    R["res"] = np.where(R.p_holm < 0.05, np.where(R.ma > R.mb, "+", "-"), "=")
+    R["gain%"] = 100 * (R.ma / R.mb - 1)
+    R.to_csv(os.path.join(ROOT, "results_pubrate", "stats_rate.csv"), index=False)
+    print("PR:\n", R.round(4).to_string())

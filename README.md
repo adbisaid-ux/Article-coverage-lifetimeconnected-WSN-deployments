@@ -29,6 +29,7 @@ Python 3.13; exact library versions in `requirements.txt` (also recorded in each
 | V (variability across algorithm seeds) | `A1_CONFIG=config_var.json A1_RES=results_var python3 experiments/run_a1.py --exp V` | `results_var/` |
 | TU, TN (tuned NSGA-II) | `A1_CONFIG=config_tune.json A1_RES=results_tune python3 experiments/run_a1.py --exp TU`, then `A1_CONFIG=config_tuned.json A1_RES=results_tuned ... --exp TN` | `results_tune/`, `results_tuned/` |
 | PB, PA (published repairs KY-RH and DD-MCSA) | `A1_CONFIG=config_pub.json A1_RES=results_pub python3 experiments/run_a1.py --exp PB`; `A1_CONFIG=config_pub_agg.json A1_RES=results_pub_agg ... --exp PA` | `results_pub/`, `results_pub_agg/` |
+| PR (repair rates 0.5 and 1) and repair displacement | `sh experiments/run_extra3.sh`; `python3 experiments/repair_moves.py` | `results_pubrate/` |
 | Sensing energy (re-scoring, no new runs) | `python3 experiments/analyze_sensing.py` | `results_sensing/` |
 
 Runs are deterministic for given seeds: re-running a configuration reproduces the stored hypervolumes exactly.

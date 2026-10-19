@@ -15,20 +15,25 @@
 |   12 |           2   |        0.599 |        0.23  |              0.602 |                       2 |
 |   12 |           5   |        0.748 |        0.373 |              0.751 |                       2 |
 
-## NSGA-II+SA vs competitors (HV, Holm within source and level): counts of +/=/-
+## NSGA-II+SA vs competitors (HV, Holm within source, regime and level): counts of +/=/-
 
-|                      |   + |   = |
-|:---------------------|----:|----:|
-| ('results', 0.0)     |  48 |   0 |
-| ('results', 0.5)     |  48 |   0 |
-| ('results', 1.0)     |  48 |   0 |
-| ('results', 2.0)     |  48 |   0 |
-| ('results', 5.0)     |  48 |   0 |
-| ('results_agg', 0.0) |  43 |  21 |
-| ('results_agg', 0.5) |  43 |  21 |
-| ('results_agg', 1.0) |  44 |  20 |
-| ('results_agg', 2.0) |  44 |  20 |
-| ('results_agg', 5.0) |  46 |  18 |
+|                             |   + |   = |
+|:----------------------------|----:|----:|
+| ('results', 'raw', 0.0)     |  48 |   0 |
+| ('results', 'raw', 0.5)     |  48 |   0 |
+| ('results', 'raw', 1.0)     |  48 |   0 |
+| ('results', 'raw', 2.0)     |  48 |   0 |
+| ('results', 'raw', 5.0)     |  48 |   0 |
+| ('results_agg', 'agg', 0.0) |  35 |  13 |
+| ('results_agg', 'agg', 0.5) |  36 |  12 |
+| ('results_agg', 'agg', 1.0) |  36 |  12 |
+| ('results_agg', 'agg', 2.0) |  37 |  11 |
+| ('results_agg', 'agg', 5.0) |  37 |  11 |
+| ('results_agg', 'raw', 0.0) |   9 |   7 |
+| ('results_agg', 'raw', 0.5) |   8 |   8 |
+| ('results_agg', 'raw', 1.0) |   8 |   8 |
+| ('results_agg', 'raw', 2.0) |   8 |   8 |
+| ('results_agg', 'raw', 5.0) |   9 |   7 |
 
 ## Coverage at the lifetime of a c = 2 tree (median %, NSGA-II+SA)
 

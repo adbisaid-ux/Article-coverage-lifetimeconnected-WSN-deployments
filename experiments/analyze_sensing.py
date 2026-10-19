@@ -95,7 +95,7 @@ print("max |HV(E_s=0) - stored HV|:", check)
 
 # 3. NSGA-II+SA vs each competitor at every E_s level: paired Wilcoxon, Holm within (source, level)
 st = []
-for (src, u), d in H.groupby(["source", "Es_over_erx"]):
+for (src, reg, u), d in H.groupby(["source", "regime", "Es_over_erx"]):   # XR runs in results_agg are raw-regime
     rows = []
     for sc, ds in d.groupby("scenario"):
         w = ds.pivot(index="run", columns="algorithm", values="HV")
@@ -103,7 +103,7 @@ for (src, u), d in H.groupby(["source", "Es_over_erx"]):
             if o == "NSGA-II+SA" or o.startswith("NSGA-II+SA "):
                 continue
             p = stats.wilcoxon(w["NSGA-II+SA"], w[o]).pvalue if (w["NSGA-II+SA"] != w[o]).any() else 1.0
-            rows.append(dict(source=src, Es_over_erx=u, scenario=sc, other=o, sa=w["NSGA-II+SA"].mean(),
+            rows.append(dict(source=src, regime=reg, Es_over_erx=u, scenario=sc, other=o, sa=w["NSGA-II+SA"].mean(),
                              mo=w[o].mean(), p=p))
     r = pd.DataFrame(rows)
     r["p_holm"] = holm(r.p)
@@ -134,8 +134,8 @@ C.to_csv(os.path.join(OUT, "coverage_equal_lifetime.csv"), index=False)
 
 with open(os.path.join(OUT, "summary.md"), "w") as f:
     f.write("# Sensitivity to sensing energy\n\n## Analytic ratios\n\n" + R.round(3).to_markdown(index=False))
-    f.write("\n\n## NSGA-II+SA vs competitors (HV, Holm within source and level): counts of +/=/-\n\n")
-    f.write(S.groupby(["source", "Es_over_erx", "res"]).size().unstack(fill_value=0).to_markdown())
+    f.write("\n\n## NSGA-II+SA vs competitors (HV, Holm within source, regime and level): counts of +/=/-\n\n")
+    f.write(S.groupby(["source", "regime", "Es_over_erx", "res"]).size().unstack(fill_value=0).to_markdown())
     f.write("\n\n## Coverage at the lifetime of a c = 2 tree (median %, NSGA-II+SA)\n\n" + C.round(3).to_markdown(index=False))
     f.write(f"\n\nSanity check, max |HV(E_s=0) - stored HV| per source: {check}\n")
 print(open(os.path.join(OUT, "summary.md")).read())
